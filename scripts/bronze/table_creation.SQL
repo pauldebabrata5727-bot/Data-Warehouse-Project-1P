@@ -66,3 +66,5 @@ CREATE TABLE IF NOT EXISTS bronze.erp_category (
     subcat       NVARCHAR(50),
     maintenance  NVARCHAR(50)
 );
+
+After creating tables. Use import data table wizard in My SQL workbench to import the data from different source table.
