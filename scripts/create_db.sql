@@ -5,6 +5,7 @@ Create Database and Schemas
 
 Purpose:
 
+All this scripts are created by using My SQL workbench.
 This scripts create a new databse named 'Dataproject' after checking if it is alreday exists.
 This scripts also create 3 different schemas named 'bronze', 'silver', 'gold'.
 
