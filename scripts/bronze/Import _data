@@ -1,0 +1,46 @@
+I used mysql for this project so I can use direct data import function or manual import. here are the code for manual import
+
+USE bronze;
+
+LOAD DATA LOCAL INFILE '/Users/source.csv'
+INTO TABLE bronze.crm_customer_info
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(customer_id, customer_key, customer_firstname, customer_lastname, customer_marital_status, customer_gender, customer_create_date);
+
+LOAD DATA LOCAL INFILE '/Users/source.csv'
+INTO TABLE bronze.crm_product_info
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(product_id, product_key, product_nm, product_cost, product_line, product_start_date, product_end_date);
+
+LOAD DATA LOCAL INFILE '/Users/source.csv'
+INTO TABLE bronze.crm_sales_details
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(sales_ord_num, sales_prd_key, sales_cust_id, sales_order_dt, sales_ship_dt, sales_due_dt, sales_sales,sales_quantity,sales_price);
+
+
+LOAD DATA LOCAL INFILE '/Users/source.csv'
+INTO TABLE bronze.erp_category
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(id, cat, subcat, maintenance);
+
+LOAD DATA LOCAL INFILE '/Users/source.csv'
+INTO TABLE bronze.erp_customer
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(cid, bdate, gender);
+
+LOAD DATA LOCAL INFILE '/Users/source.csv'
+INTO TABLE bronze.erp_location
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(cid, country);
