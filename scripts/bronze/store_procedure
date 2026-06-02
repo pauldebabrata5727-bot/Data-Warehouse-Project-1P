@@ -1,0 +1,20 @@
+This scripts represent store procedure in bronze database
+
+DELIMITER $$
+CREATE PROCEDURE bronze.load_bronze ()
+BEGIN
+
+SELECT * FROM bronze.crm_customer_info;
+
+SELECT * FROM bronze.crm_product_info;
+
+SELECT * FROM bronze.crm_sales_details; 
+
+SELECT * FROM bronze.erp_category;
+
+SELECT * FROM bronze.erp_customer;
+
+SELECT * FROM bronze.erp_location;
+
+END $$
+DELIMITER ;
