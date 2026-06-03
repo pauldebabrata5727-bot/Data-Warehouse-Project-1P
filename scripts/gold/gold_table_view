@@ -1,0 +1,60 @@
+-- Gold layer customer
+
+CREATE VIEW gold_customers AS
+SELECT
+ROW_NUMBER() OVER(ORDER BY customer_id) AS customer_key,
+    ci.customer_id AS customer_id,
+	ci.customer_key AS customer_number ,
+	ci.customer_firstname AS firstname,
+    ci.customer_lastname AS lastname,
+    ci.customer_marital_status AS marital_status,
+    CASE WHEN ci.customer_gender <> 'n/a' THEN ci.customer_gender
+	ELSE COALESCE(ca.gender, 'n/a')
+    END gender,
+    la.country AS country, 
+    ca.bdate AS birthdaye,
+    ci.customer_create_date AS create_date
+FROM silver.crm_customer_info ci
+LEFT JOIN silver.erp_customer ca
+ON		  ci.customer_key = ca.cid
+LEFT JOIN silver.erp_location la
+ON		  ci.customer_key = la.cid;
+
+-- Gold layer product
+
+CREATE VIEW gold_product_dimension AS
+SELECT
+    ROW_NUMBER() OVER(ORDER BY product_start_date, product_key) AS product_key_num,
+    pn.product_id,
+    pn.product_key,
+    pn.product_nm AS product_name,
+    pn.cat_id AS category_id,
+    pc.cat AS category,
+    pc.subcat AS subcategory,
+    pc.maintenance,
+    pn.product_cost,
+    pn.product_line,
+    pn.product_start_date
+    FROM silver.crm_product_info pn
+    LEFT JOIN silver.erp_category pc
+    ON pn.cat_id = pc.id
+    WHERE product_end_date IS NULL;
+    
+    -- Gold layer sales
+    
+    CREATE VIEW gold_product_sales AS
+    SELECT
+    sd.sales_ord_num AS sales_order_number,
+    pr.product_key_num,
+    customer_key,
+    sd.sales_order_dt AS sales_order_date,
+    sd.sales_ship_dt AS sales_ship_date,
+    sd.sales_due_dt AS sales_due_date,
+    sd.sales_sales,
+    sd.sales_quantity,
+    sd.sales_price
+    FROM silver.crm_sales_details sd
+    LEFT JOIN gold_product_dimension pr
+    ON sd.sales_prd_key = pr.product_key
+    LEFT JOIN gold_customers cu
+    ON sd.sales_cust_id = cu.customer_id;
