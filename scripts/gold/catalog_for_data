@@ -1,0 +1,57 @@
+## Overview
+The Gold Layer serves as the final presentation layer, optimized for analytical workloads and business reporting. It contains dimension tables for descriptive attributes and fact tables for measurable business data.
+---
+
+1. gold_customers
+Purpose: Contains customer information enhanced with demographic and geographic attributes for customer dimensions.
+
+
+| Column Name      | Data Type     | Description                                                                                   |
+|------------------|---------------|-----------------------------------------------------------------------------------------------|
+| customer_key     | INT           | Internal surrogate key generated to uniquely represent a customer within the data warehouse.  |
+| customer_id      | INT           | Original customer identifier sourced from the operational system.                             |
+| customer_number  | NVARCHAR(50)  | Business-facing customer reference code used for identification and record management.        |
+| firstname        | NVARCHAR(50)  | Customer's given name.                                                                        |
+| lastname         | NVARCHAR(50)  | Customer's family or last name.                                                               |
+| marital_status   | NVARCHAR(50)  | Current marital status associated with the customer.                                          |
+| gender           | NVARCHAR(50)  | Gender information recorded for the customer.                                                 |
+| country          | NVARCHAR(50)  | Nation in which the customer is located or resides.                                           |
+| birthdate        | DATE          | Recorded date of birth of the customer.                                                       |
+| create_date      | DATE          | Date when the customer profile was first added to the source system.                          |
+
+
+
+2. gold_products_dimensions
+Purpose: Holds product-related data along with key characteristics and attributes for product dimensions.
+
+
+| Column Name         | Data Type     | Description                                                                                              |
+|---------------------|---------------|----------------------------------------------------------------------------------------------------------|
+| product_key_num     | INT           | System-generated surrogate key used to uniquely identify each product record within the dimension table. |
+| product_id          | INT           | Source-system identifier assigned to a product for unique identification.                                |
+| product_key         | NVARCHAR(50)  | Business product code used for product identification, tracking, and inventory management.               |
+| product_name        | NVARCHAR(50)  | Product title containing descriptive details such as model, color, or size.                              |
+| category_id         | NVARCHAR(50)  | Unique code representing the product category.                                                           |
+| category            | NVARCHAR(50)  | Primary classification used to group products into broad business categories.                            |
+| subcategory         | NVARCHAR(50)  | Secondary classification that provides a more detailed grouping within a category.                       |
+| maintenance         | NVARCHAR(50)  | Indicates whether the product requires ongoing maintenance or servicing.                                 |
+| product_cost        | INT           | Cost value associated with the product before any sales markup or pricing adjustments.                   |
+| product_line        | NVARCHAR(50)  | Product family or collection that identifies the series to which the product belongs.                    |
+| product_start_date  | DATE          | Date when the product was introduced, launched, or made available for sale.                              |
+
+---
+
+3.gold_product_sales
+Purpose: Captures sales transactions and measurable data to support business analysis and reporting as sales facts.
+
+| Column Name        | Data Type     | Description                                                                                   |
+|--------------------|---------------|-----------------------------------------------------------------------------------------------|
+| sales_order_number | NVARCHAR(50)  | Unique alphanumeric reference assigned to each sales transaction.                             |
+| product_key_num    | INT           | Surrogate key used to associate the sales record with the product dimension.                  |
+| customer_key       | INT           | Surrogate key linking the transaction to the corresponding customer dimension.                |
+| sales_order_date   | DATE          | Date on which the order was originally placed.                                                |
+| sales_ship_date    | DATE          | Date on which the order was dispatched to the customer.                                       |
+| sales_due_date     | DATE          | Scheduled payment due date for the order.                                                     |
+| sales_sales        | INT           | Total revenue generated from the sales line item, recorded in currency units.                 |
+| sales_quantity     | INT           | Number of product units included in the transaction.                                          |
+| sales_price        | INT           | Unit price applied to the product for the sales line item.                                    |
