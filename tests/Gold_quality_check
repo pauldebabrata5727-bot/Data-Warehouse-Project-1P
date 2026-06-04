@@ -1,6 +1,6 @@
-===============================================================================
+
 Data Quality Checks – Gold Layer
-===============================================================================
+
 
 Purpose:
     This script validates the integrity, consistency, and accuracy of the
@@ -14,8 +14,6 @@ Purpose:
 Usage:
     Review any records returned by these checks and resolve data issues
     before using the data for reporting or analytics.
-===============================================================================
-*/
 
 -- ====================================================================
 -- Validation: gold_customers
