@@ -1,3 +1,13 @@
+Script purpose:
+
+This script defines views for the Gold layer of the data warehouse. The Gold layer contains the final fact and dimension tables structured in a Star Schema.
+
+Each view transforms and integrates data from the Silver layer to produce clean, enriched, and analytics-ready datasets.
+
+Usage:
+These views can be queried directly for reporting and analytical purposes.
+
+
 -- Gold layer customer
 
 CREATE VIEW gold_customers AS
@@ -12,7 +22,7 @@ ROW_NUMBER() OVER(ORDER BY customer_id) AS customer_key,
 	ELSE COALESCE(ca.gender, 'n/a')
     END gender,
     la.country AS country, 
-    ca.bdate AS birthdaye,
+    ca.bdate AS birthdate,
     ci.customer_create_date AS create_date
 FROM silver.crm_customer_info ci
 LEFT JOIN silver.erp_customer ca
@@ -41,8 +51,8 @@ SELECT
     WHERE product_end_date IS NULL;
     
     -- Gold layer sales
-    
-    CREATE VIEW gold_product_sales AS
+
+ CREATE VIEW gold_product_sales AS
     SELECT
     sd.sales_ord_num AS sales_order_number,
     pr.product_key_num,
