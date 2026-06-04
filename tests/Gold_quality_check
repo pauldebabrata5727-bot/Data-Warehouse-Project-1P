@@ -1,0 +1,59 @@
+===============================================================================
+Data Quality Checks – Gold Layer
+===============================================================================
+
+Purpose:
+    This script validates the integrity, consistency, and accuracy of the
+    Gold layer in the data warehouse.
+
+    It ensures:
+    - Uniqueness of keys in dimension tables
+    - Referential integrity between fact and dimension tables
+    - Correct relationships within the analytical data model
+
+Usage:
+    Review any records returned by these checks and resolve data issues
+    before using the data for reporting or analytics.
+===============================================================================
+*/
+
+-- ====================================================================
+-- Validation: gold_customers
+-- ====================================================================
+-- Check for duplicate customer keys
+-- Expected result: No rows returned
+
+SELECT 
+    customer_key,
+    COUNT(*) AS duplicate_count
+FROM gold_customers
+GROUP BY customer_key
+HAVING COUNT(*) > 1;
+
+-- ====================================================================
+-- Validation: gold_product_dimension
+-- ====================================================================
+-- Check for duplicate product keys
+-- Expected result: No rows returned
+
+SELECT 
+    product_key,
+    COUNT(*) AS duplicate_count
+FROM gold_product_dimension
+GROUP BY product_key_num
+HAVING COUNT(*) > 1;
+
+-- ====================================================================
+-- Validation: gold_product_sales
+-- ====================================================================
+-- Check referential integrity between fact and dimension tables
+-- Expected result: No rows returned
+
+SELECT *
+FROM gold_product_sales f
+LEFT JOIN gold_customers c
+    ON f.customer_key = c.customer_key
+LEFT JOIN gold_product_sales p
+    ON f.product_key_num = p.product_key
+WHERE c.customer_key IS NULL
+   OR p.product_key IS NULL;
